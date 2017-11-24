@@ -225,28 +225,32 @@ class MainWindow():
     def Click(self, event):
         x,y = event.x,event.y
 
-        if self.First==True:
-            self.First = False
-            self.UL = (x-self.stepx,y-self.stepy) 
-            #print "first click -- ", self.UL
-            #print "tipo do UL", type(self.UL)
+        if ( x-self.stepx<0 or y-self.stepy<0 or x-self.stepx>self.image_width or y-self.stepy>self.image_height):
+            print "fora"
+
+        else: 
+            if self.First==True:
+                self.First = False
+                self.UL = (x-self.stepx,y-self.stepy) 
+                #print "first click -- ", self.UL
+                #print "tipo do UL", type(self.UL)
             
-        else:
-            self.First=True
-            self.BR = (x-self.stepx,y-self.stepy)
-            #print "Second Click -- ", self.BR
-            #print "tipo do BR", type(self.BR)
-            new_rec =self.canvas.create_rectangle(self.UL[0],self.UL[1],self.BR[0],self.BR[1],width =1,outline="red")
-            self.boxes.append(new_rec)
-            self.canvas.move(new_rec,self.stepx,self.stepy)
-            self.list.append((self.UL,self.BR))
-            ind = len(self.list) -1
-            #print "self.list ----",self.list[ind][0]
-            element = "{} --{},{}".format(ind,self.list[ind][0],self.list[ind][1])
-            self.listbox.insert(ind,element)
-            #print "adicionado  ---", self.list[ind]
-            self.rIds.append(self.canvas.create_text(min(self.UL[0],self.BR[0])+self.stepx,min(self.UL[1],self.BR[1])+self.stepy, anchor="nw",fill = "red"))
-            self.canvas.itemconfig(self.rIds[len(self.rIds)-1], text=ind)
+            else:
+                self.First=True
+                self.BR = (x-self.stepx,y-self.stepy)
+                #print "Second Click -- ", self.BR
+                #print "tipo do BR", type(self.BR)
+                new_rec =self.canvas.create_rectangle(self.UL[0],self.UL[1],self.BR[0],self.BR[1],width =1,outline="red")
+                self.boxes.append(new_rec)
+                self.canvas.move(new_rec,self.stepx,self.stepy)
+                self.list.append((self.UL,self.BR))
+                ind = len(self.list) -1
+                #print "self.list ----",self.list[ind][0]
+                element = "{} --{},{}".format(ind,self.list[ind][0],self.list[ind][1])
+                self.listbox.insert(ind,element)
+                #print "adicionado  ---", self.list[ind]
+                self.rIds.append(self.canvas.create_text(min(self.UL[0],self.BR[0])+self.stepx,min(self.UL[1],self.BR[1])+self.stepy, anchor="nw",fill = "red"))
+                self.canvas.itemconfig(self.rIds[len(self.rIds)-1], text=ind)
     
     
     def Save(self):
@@ -280,7 +284,7 @@ class MainWindow():
         x,y= event.x,event.y
         if ( x-self.stepx<0 or y-self.stepy<0 or x-self.stepx>self.image_width or y-self.stepy>self.image_height):
             pass
-            #print "fora"
+            #print "Fora da imagem"
         else:
             self.coord_mouse = (self.canvas.create_line(0,y,width,y,fill="red", dash=(4,4)),self.canvas.create_line(x,0,x,height,fill="red", dash=(4,4)))
             if self.First == True:
