@@ -2,20 +2,21 @@
 
 
 
-#H1 Descrição: 
-
+Descrição:
+==========
 Sofware em python para criacao de Bouding Box para Yolo.
 Seleciona um bando de imagens e o usuario seleciona os itens.
 Ao salvar cria um arquivo .txt com mesmo nome da imagem com os dados do elemento selecionado.
-Por enquanto somente para uma classe.
+Por enquanto somente para uma classe
 No arquivo txt: "Classe Centro_x Centro_Y Largura Altura"
 
-#H1 Requisitos:
-⋅⋅* Pillow
-⋅⋅* Tkinter
+Requisitos:
+===========
+* Pillow
+* Tkinter
 
-#H1 Tutorial: 
-
+Tutorial: 
+=========
 1. Rodar no terminal "$python bbYOLO.py"
 
 2. Clicar em "Load" e selecionar as imagens( somente .jpg por enquanto)
