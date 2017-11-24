@@ -1,10 +1,11 @@
 import Tkinter as tk
 from tkinter import filedialog as fd
 from PIL import Image, ImageTk
+import Image
 #----------------------------------------------------------------------
 width = 800
 height = 600
-step = 5
+step = 50
 class MainWindow():
    
     #----------------
@@ -78,13 +79,14 @@ class MainWindow():
     def Cancel(self,x):
         self.First = True
     def CurSelet(self,x):
+        self.stepx = 0
+        self.stepy=0
 
         #print "----------------REMOVE----------"
         self.canvas.delete("all")
         self.path = self.files[self.my_image_id]
         self.im = Image.open(self.path)
-        self.fileTxt = self.path.replace(".png",".txt")
-        self.fileTxt = self.path.replace(".png",".txt")
+        self.fileTxt = self.path.replace(".jpg",".txt")
         #print self.fileTxt
         #print ImageTk.PhotoImage(self.im).width()
         self.image = ImageTk.PhotoImage(self.im)
@@ -115,42 +117,22 @@ class MainWindow():
 
     def Left(self,x):
         #print "Left",x
-        self.stepx-=step
-        #print "steps = ",self.stepx,",",self.stepy
-        for b in self.boxes:
-            self.canvas.move(b,-step,0)
-        for r in self.rIds:
-            self.canvas.move(r,-step,0)
-        self.canvas.move(self.CurrentImage,-step,0)
-    def Right(self,x):
-        #print "Right",x
         self.stepx+=step
         #print "steps = ",self.stepx,",",self.stepy
-        for b in self.boxes:
-            self.canvas.move(b,step,0)
-        for r in self.rIds:
-            self.canvas.move(r,step,0)
-        self.canvas.move(self.CurrentImage,step,0)
+        self.canvas.move("all",+step,0)
+    def Right(self,x):
+        #print "Right",x
+        self.stepx-=step
+        self.canvas.move("all",-step,0)
 
     def Up(self,x):
 
         #print "Left",x
         self.stepy+=step
-        #print "steps = ",self.stepx,",",self.stepy
-        for b in self.boxes:
-            self.canvas.move(b,0,step)
-        for r in self.rIds:
-            self.canvas.move(r,0,step)
-        self.canvas.move(self.CurrentImage,0,step)
+        self.canvas.move("all",0,step)
     def Down(self,x):
-        #print "Right",x
         self.stepy -= step
-        #print "steps = ",self.stepx,",",self.stepy
-        for b in self.boxes:
-            self.canvas.move(b,0,-step)
-        for r in self.rIds:
-            self.canvas.move(r,0,-step)
-        self.canvas.move(self.CurrentImage,0,-step)
+        self.canvas.move("all",0,-step)
 
  
     def Load(self):
@@ -159,7 +141,6 @@ class MainWindow():
         self.canvas.delete("all")
         self.path = self.files[self.my_image_id]
         self.im = Image.open(self.path)
-        self.fileTxt = self.path.replace(".png",".txt")
         self.fileTxt = self.path.replace(".jpg",".txt")
         #print self.fileTxt
         self.image_width = ImageTk.PhotoImage(self.im).width()
@@ -215,14 +196,13 @@ class MainWindow():
             self.my_image_id+=1
             self.Load()
         else:
-            pass
-            #print "Fim da Lista"
+            print "Fim da Lista"
     
 
 
 
     def Open (self):
-        self.ftype = [('PNG Image',('.jpg','.png'))]
+        self.ftype = [('PNG Image','.jpg')]
         self.files = fd.askopenfilenames(parent=root, title = "Choose the Images", filetypes=self.ftype)
         #print self.files
         self.my_image_id = 0
@@ -237,8 +217,7 @@ class MainWindow():
             self.my_image_id -=1
             self.Load()
         else:
-            pass
-            #print "Fim da Lista"
+            print "Fim da Lista"
 
 
 
