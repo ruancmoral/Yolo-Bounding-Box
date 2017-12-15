@@ -1,7 +1,7 @@
 import Tkinter as tk
 from tkinter import filedialog as fd
 from PIL import Image, ImageTk
-import Image
+#import Image
 #----------------------------------------------------------------------
 width = 800
 height = 600
@@ -158,6 +158,7 @@ class MainWindow():
         self.stepy=0
         END = len(self.list)
         #print "LISTAAAA - ", self.list
+        self.list = []
         self.listbox.delete(0,END)
         with open(self.fileTxt) as f:
             content = f.readlines()
@@ -166,6 +167,7 @@ class MainWindow():
         #print content
         temp = []
         temp2= []
+        ind = 0
         for c in content:
             #print "c===== ",c
             coord = map(float, c.split(" "))
@@ -173,20 +175,21 @@ class MainWindow():
             a =((coord[1] - coord[4]/2)*self.image_width , (coord[2] - coord[3]/2)*self.image_height)
             b =((coord[1] + coord[4]/2)*self.image_width , (coord[2] + coord[3]/2)*self.image_height)
             temp.append((a,b))
-
             a = ((int(a[0]),int(a[1])))
             b = ((int(b[0]),int(b[1])))
             ind = len(temp)-1
             textbox = "{} ---{},{}".format(ind,a,b)
+            print textbox
             #print "+++++texbox ====",textbox
             self.listbox.insert(ind,textbox)
             #print "a = ", a 
             #print "b = ",b
             #print "a0 =", a[0] ,"a1 =" ,a[1]
             self.boxes.append(self.canvas.create_rectangle(a[0],a[1],b[0],b[1],width =1,outline="red"))
-
             temp2.append(self.canvas.create_text(min(a[0],b[0]),min(a[1],b[1]), anchor="nw",fill = "red"))
             self.canvas.itemconfig(temp2[ind], text=ind)
+            ind +=1
+
         self.list = temp    
         self.rIds = temp2 
     
@@ -284,7 +287,7 @@ class MainWindow():
         x,y= event.x,event.y
         if ( x-self.stepx<0 or y-self.stepy<0 or x-self.stepx>self.image_width or y-self.stepy>self.image_height):
             pass
-            #print "Fora da imagem"
+            #print "fora"
         else:
             self.coord_mouse = (self.canvas.create_line(0,y,width,y,fill="red", dash=(4,4)),self.canvas.create_line(x,0,x,height,fill="red", dash=(4,4)))
             if self.First == True:
